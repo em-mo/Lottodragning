@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  main.py
+#  raffle.py
 #  
 #  Copyright 2012 Emil <emil@emil-luftbunt>
 #  
 from random import randint
 
 
-class raffle:
+class Raffle:
 	def __init__(self, size):
 		self.size = size
 		self.numbers = range(1, size)

@@ -1,35 +1,52 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  main.py
+#  lotto.py
 #  
 #  Copyright 2012 Emil <emil@emil-luftbunt>
 #  
 
 from Tkinter import *
+from time import sleep, clock
+from animated_number import AnimatedNumber
 
-class App:
+images = list()
 
-    def __init__(self, master):
+def init_menu(master):
+    menu = Menu(master)
+    master.config(menu=menu)
+    
+    menu.add_command(lable="Nytt lotteri", command=new_raffle_callback)
 
-        frame = Frame(master)
-        frame.pack()
-
-        self.button = Button(frame, text="QUIT", fg="red", command=frame.quit)
-        self.button.pack(side=LEFT)
-
-        self.hi_there = Button(frame, text="Hello", command=self.say_hi)
-        self.hi_there.pack(side=LEFT)
-
-    def say_hi(self):
-        print "hi there, everyone!"
+def new_raffle_callback():
+    pass
+    
+def init_images():
+    number_images_paths = {0:'bilder/zero.gif', 1:'bilder/one.gif', 2:'bilder/two.gif'}
+    images.append(PhotoImage(file=number_images_paths[0]))
+    images.append(PhotoImage(file=number_images_paths[1]))
+    images.append(PhotoImage(file=number_images_paths[2]))
 
 def main():
-	root = Tk()
+    i = 0
+    delta = clock()
+    
+    root = Tk()
+    init_images()
+    
+    main_canvas = Canvas(root, width=500, height=200, bd=0, highlightthickness=0)
+    
+    anim = AnimatedNumber(main_canvas, 100, 100, 0.5, 0, images, 0, 2)
+    
+    main_canvas.pack()
+    
+    while True:
+        delta = clock() - delta
+        anim.update(delta)
 
-	app = App(root)
-
-	root.mainloop()
+        root.update()
+        sleep(0.020)
+        
 
 if __name__ == '__main__':
     main()
