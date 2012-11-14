@@ -19,7 +19,9 @@ class AnimatedImage:
 		
 		self.canvas_image = canvas.create_image(self.position['x'], self.position['y'], image=self.image)
 		
-		
+	def set_position(self, x, y):
+		self.canvas.coords(self.canvas_image, x, y)
+	
 	def set_value(self, value):
 		self.value = value
 		self.image = self.images[value]
