@@ -29,6 +29,7 @@ class LottoCanvas(Canvas):
 			item.reposition()
 	
 	def handle_event(self, event):
+		# print "clicked at", event.x, event.y
 		if event.num == 1:
 			for item in self.items:
 				item.handle_event(event)

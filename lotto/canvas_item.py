@@ -21,10 +21,14 @@ class CanvasItem:
 		
 		self.anchor_x, self.anchor_y = anchor(self)
 	
-		self.x = relx * self.parent.winfo_width() + self.anchor_x + LottoCanvas.sidebar_offset
-		self.y = rely * self.parent.winfo_height() + self.anchor_y
+		self.calculate_coordinates(self.parent.winfo_width(), self.parent.winfo_height())
+
 		return
-		
+	
+	def calculate_coordinates(self, width, height):
+		self.x = self.relx * (width - LottoCanvas.sidebar_offset) + self.anchor_x + LottoCanvas.sidebar_offset
+		self.y = self.rely * height + self.anchor_y
+	
 	def NW(self):
 		return 0, 0
 	
@@ -35,15 +39,15 @@ class CanvasItem:
 		return -self.width / 2, -self.height
 		
 	def NE(self):
-		return self.width, 0
+		return -self.width, 0
 		
 	def set_height(self, height):
 		self.height =  height
-		self.anchor_x, self.anchor_Y = anchor(self)
+		self.anchor_x, self.anchor_Y = self.anchor(self)
 	
 	def set_width(self, width):
 		self.width =  width
-		self.anchor_x, self.anchor_Y = anchor(self)
+		self.anchor_x, self.anchor_Y = self.anchor(self)
 	
 	def inside(self, x, y):
 		top = self.y
@@ -56,8 +60,7 @@ class CanvasItem:
 	def reposition(self, event):
 		width = event.width
 		height = event.height
-		self.x = self.relx * width + self.anchor_x + LottoCanvas.sidebar_offset
-		self.y = self.rely * height + self.anchor_y
+		self.calculate_coordinates(width, height)
 		
 		self.update_position()
 		return

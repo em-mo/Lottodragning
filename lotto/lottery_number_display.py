@@ -31,9 +31,18 @@ class LotterNumberDisplay(CanvasItem):
 		self.lottery_number = CompositeNumber(self.parent, no_numbers, x, y, self.number_images)
 		self.lottery_number.set_value(value)
 		return
-		
+	
 	def start_animation(self):
 		self.lottery_number.start_roll()
 		
 	def update(self, delta):
 		self.lottery_number.update(delta)
+		
+	def update_position(self):
+		self.parent.coords(self.image_item, self.x, self.y)
+		
+		x = self.x - self.anchor_x
+		y = self.y - self.anchor_y - (self.height * 4) / 5
+		
+		self.lottery_number.move(x, y)
+		

@@ -68,6 +68,15 @@ class LotteryLayout:
         
         self.side_number_bar = NumberBar(self.main_canvas, 1, 0, CanvasItem.NE, self.small_number_images, 1000)
         self.side_number_bar.add_number(111)        
+        self.side_number_bar.add_number(112)        
+        self.side_number_bar.add_number(113)        
+        self.side_number_bar.add_number(114)        
+        self.side_number_bar.add_number(115)        
+        self.side_number_bar.add_number(116)        
+        self.side_number_bar.add_number(117)        
+        self.side_number_bar.add_number(118)        
+        self.side_number_bar.add_number(119)        
+        self.side_number_bar.add_number(110)        
         return
         
     def set_background(self):
