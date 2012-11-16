@@ -17,21 +17,28 @@ class LotterNumberDisplay(CanvasItem):
 		self.number_images = number_images
 		self.animation_started = False
 		self.image_item = parent.create_image(self.x, self.y, image=self.image, anchor=tk.NW)
+		self.lottery_number = None
 
 		return
 		
 	def init_numbers(self, max_value, value):
 		no_numbers = 1
-		while pow(10, no_numbers) < max_value:
+		while pow(10, no_numbers) <= max_value:
 			no_numbers += 1
-		
 		
 		x = self.x - self.anchor_x
 		y = self.y - self.anchor_y - (self.height * 4) / 5
+		
+		if self.lottery_number:
+			self.lottery_number.destroy()
+		
 		self.lottery_number = CompositeNumber(self.parent, no_numbers, x, y, self.number_images)
 		self.lottery_number.set_value(value)
 		return
 	
+	def set_value(self, value):
+		self.lottery_number.set_value(value)
+		
 	def set_image(self, new_image):
 		self.parent.itemconfigure(self.image_item, image=new_image)
 		return
@@ -65,3 +72,6 @@ class LotterNumberDisplay(CanvasItem):
 			self.start_animation()
 			self.animation_started = True
 		return
+		
+	def is_rolling(self):
+		return self.lottery_number.run_animation

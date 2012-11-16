@@ -10,9 +10,12 @@ import Tkinter as tk
 from math import pow, floor
 from animated_number import AnimatedNumber
 
-class CompositeNumber(tk.Canvas):
+class CompositeNumber():
+	ROLL_DURATION_FIRST = 1
+	ROLL_DURATION_CONSECUTIVE = 1
 	def __init__(self, canvas, no_numbers, x, y, images):
 		self.current_stopper = 0
+		self.run_animation = False
 		update_time = 0.1
 		self.value = 0
 		self.number_margin = 3
@@ -49,7 +52,7 @@ class CompositeNumber(tk.Canvas):
 
 	def divide_into_singles(self, value):
 		no_chars = 1
-		while pow(10, no_chars) < value:
+		while pow(10, no_chars) <= value:
 			no_chars += 1
 		
 		chars = list()
@@ -65,10 +68,14 @@ class CompositeNumber(tk.Canvas):
 		return chars
 		
 	def start_roll(self):
+		self.run_animation = True
+		self.stop_countdown_first = CompositeNumber.ROLL_DURATION_FIRST
+		self.stop_countdown_consecutive = CompositeNumber.ROLL_DURATION_CONSECUTIVE
 		for n in self.numbers:
 			n.animate(True)
 			
 	def stop_roll(self):
+		self.run_animation = False
 		for n in self.numbers:
 			n.animate(False)
 			
@@ -76,9 +83,22 @@ class CompositeNumber(tk.Canvas):
 		self.numbers[self.current_stopper].animate(False)
 		self.current_stopper = (self.current_stopper + 1) % len(self.numbers)
 		
+		if self.current_stopper == 0:
+			self.run_animation = False
+		
 	def update(self, delta):
-		for n in self.numbers:
-			n.update(delta)
+		if self.run_animation:
+			if self.stop_countdown_first < 0:
+				if self.stop_countdown_consecutive < 0:
+					self.stop_next()
+					self.stop_countdown_consecutive = CompositeNumber.ROLL_DURATION_CONSECUTIVE
+				else:
+					self.stop_countdown_consecutive -= delta
+			else:
+				self.stop_countdown_first -= delta
+			for n in self.numbers:
+				n.update(delta)
+		
 			
 	def move(self, x, y):
 		centered_x = self.center_x(x)
@@ -87,4 +107,7 @@ class CompositeNumber(tk.Canvas):
 		for i in range(self.no_numbers):
 			offset = self.number_width * i
 			self.numbers[i].set_position(centered_x + offset, centered_y)
-		
+			
+	def destroy(self):
+		for n in self.numbers:
+			n.canvas.delete(n.canvas_image)
