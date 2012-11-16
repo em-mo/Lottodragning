@@ -65,7 +65,7 @@ class LotteryLayout:
     def init_bar_and_display(self):
         self.main_display = LotterNumberDisplay(self.main_canvas, 0.5, 1, CanvasItem.S, self.main_red_image, self.number_images)
         self.main_display.init_numbers(1000, 323)
-        
+        self.main_canvas.bind('<Button-3>', self.main_display.handle_mouse_event_temp)
         self.side_number_bar = NumberBar(self.main_canvas, 1, 0, CanvasItem.NE, self.small_number_images, 1000)
         self.side_number_bar.add_number(111)        
         self.side_number_bar.add_number(112)        
@@ -125,18 +125,22 @@ class LotteryLayout:
     def red_button_callback(self):
         self.set_buttons_to_half()
         self.red_button.set_image(self.red_button_full_image)
+        self.main_display.set_image(self.main_red_image)
     
     def white_button_callback(self):
         self.set_buttons_to_half()
         self.white_button.set_image(self.white_button_full_image)
+        self.main_display.set_image(self.main_white_image)
 
     def yellow_button_callback(self):
         self.set_buttons_to_half()
         self.yellow_button.set_image(self.yellow_button_full_image)
+        self.main_display.set_image(self.main_yellow_image)
 
     def green_button_callback(self):
         self.set_buttons_to_half()
         self.green_button.set_image(self.green_button_full_image)
+        self.main_display.set_image(self.main_green_image)
     
     def new_raffle_callback(self):
         pass

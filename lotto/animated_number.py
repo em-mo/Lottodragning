@@ -44,5 +44,5 @@ class AnimatedNumber(AnimatedImage):
 	def animate(self, bool):
 		self.run_animation = bool
 		if not bool:
-			self.image = self.images[value]
+			self.image = self.images[self.value]
 			self.canvas.itemconfig(self.canvas_image, image=self.image)

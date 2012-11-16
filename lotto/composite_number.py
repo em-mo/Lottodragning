@@ -68,6 +68,10 @@ class CompositeNumber(tk.Canvas):
 		for n in self.numbers:
 			n.animate(True)
 			
+	def stop_roll(self):
+		for n in self.numbers:
+			n.animate(False)
+			
 	def stop_next(self):
 		self.numbers[self.current_stopper].animate(False)
 		self.current_stopper = (self.current_stopper + 1) % len(self.numbers)
