@@ -14,9 +14,20 @@ class AnimatedNumber(AnimatedImage):
 		AnimatedImage.__init__(self, canvas, x, y, update_time, value, images)
 		self.min = min
 		self.max = max
+		self.value = value;
 		
 	def update(self, time):
 		self.current_timer -= time
 		if self.current_timer < 0:
-			self.set_value(randint(self.min, self.max))
+			new_value = randint(self.min, self.max)
+			while self.value == new_value:
+				new_value = randint(self.min, self.max)
+			
+			value = new_value
+			self.set_value(value)
 			self.current_timer = self.update_time
+			
+	def set_value(self, value):
+		self.value = value
+		self.image = self.images[value]
+		self.canvas.itemconfig(self.canvas_image, image=self.image)
