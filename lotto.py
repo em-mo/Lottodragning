@@ -63,15 +63,9 @@ class LotteryLayout:
         self.side_image = self.main_canvas.create_image(0, 0, image=self.side_thing, anchor=tk.NW)
         return
         
-    def number_path(num):
-        return 'bilder/nr/' + str(num) + 's.gif'
+
         
     def init_images(self):
-        self.number_images = list()
-        
-        for i in range(10):
-            self.number_images.append(tk.PhotoImage(file=number_path(i)))
-        
         self.red_button_half_image = tk.PhotoImage(file='bilder/Liten_halv_rod2.gif')
         self.red_button_full_image = tk.PhotoImage(file='bilder/Liten_rod2.gif')
         self.main_red_image = tk.PhotoImage(file='bilder/Main_rod2.gif')
