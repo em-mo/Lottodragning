@@ -11,6 +11,9 @@ from time import sleep, clock
 from animated_number import AnimatedNumber
 from lotto_canvas import LottoCanvas
 from canvas_button import CanvasButton
+from canvas_item import CanvasItem
+from lottery_number_display import LotterNumberDisplay
+from number_bar import NumberBar
 
 class LotteryLayout:
     def __init__(self):
@@ -31,6 +34,7 @@ class LotteryLayout:
         
         self.init_buttons()
         
+        self.init_bar_and_display()
 
         self.main_canvas.focus_set()
         return
@@ -45,18 +49,26 @@ class LotteryLayout:
         self.main_canvas = LottoCanvas(self.root, bd=0, highlightthickness=0, relief='ridge')
         self.main_canvas.bind('<Configure>', self.main_canvas.resize)
         self.main_canvas.bind('<Button-1>', self.main_canvas.handle_event)
+        
         self.set_background()
         self.main_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         return
 
     def init_buttons(self):
-        self.red_button = CanvasButton(self.main_canvas, 0, 0.15, CanvasButton.W, self.red_button_full_image, self.red_button_callback)
-        self.white_button = CanvasButton(self.main_canvas, 0, 0.375, CanvasButton.W, self.white_button_half_image, self.white_button_callback)
-        self.yellow_button = CanvasButton(self.main_canvas, 0, 0.625, CanvasButton.W, self.yellow_button_half_image, self.yellow_button_callback)
-        self.green_button = CanvasButton(self.main_canvas, 0, 0.85, CanvasButton.W, self.green_button_half_image, self.green_button_callback)
+        self.red_button = CanvasButton(self.main_canvas, 0, 0.15, CanvasItem.W, self.red_button_full_image, self.red_button_callback)
+        self.white_button = CanvasButton(self.main_canvas, 0, 0.375, CanvasItem.W, self.white_button_half_image, self.white_button_callback)
+        self.yellow_button = CanvasButton(self.main_canvas, 0, 0.625, CanvasItem.W, self.yellow_button_half_image, self.yellow_button_callback)
+        self.green_button = CanvasButton(self.main_canvas, 0, 0.85, CanvasItem.W, self.green_button_half_image, self.green_button_callback)
+        return
+    
+    def init_bar_and_display(self):
+        self.main_display = LotterNumberDisplay(self.main_canvas, 0.5, 1, CanvasItem.S, self.main_red_image, self.number_images)
+        self.main_display.init_numbers(1000, 323)
         
-        self.main_button = CanvasButton(self.main_canvas, 0.5, 1, CanvasButton.S, self.main_red_image, self.green_button_callback)
+        self.side_number_bar = NumberBar(self.main_canvas, 1, 0, CanvasItem.NE, self.small_number_images, 1000)
+        self.side_number_bar.add_number(111)        
+        return
         
     def set_background(self):
         self.background_image = self.main_canvas.create_image(0, 0, image=self.background_photo_image, anchor=tk.NW)
@@ -84,8 +96,19 @@ class LotteryLayout:
         
         self.background_photo_image = tk.PhotoImage(file='bilder/BG.gif')
         self.side_thing = tk.PhotoImage(file='bilder/sidsak.gif')
+        
+        self.small_number_images = list()
+        self.number_images = list()
+        for i in range(10):
+            self.small_number_images.append(tk.PhotoImage(file=self.number_path(i)).subsample(2))
+            self.number_images.append(tk.PhotoImage(file=self.number_path(i)))
+            
+        
         return
-
+        
+    def number_path(self, num):
+        return 'bilder/nr/' + str(num) + 's.gif'
+        
     def destroy_callback(self):
         self.run = False
         return
@@ -128,9 +151,9 @@ class LotteryLayout:
     
         while self.run:
             self.curClock = clock()
-            self.delta = self.curClock - self.prevClock
+            delta = self.curClock - self.prevClock
             self.prevClock = self.curClock
-
+            self.main_display.update(delta)
 
             self.root.update()
             sleep(0.020)

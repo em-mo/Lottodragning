@@ -12,7 +12,7 @@ class LottoCanvas(Canvas):
 	sidebar_offset = 54
 	def __init__(self, parent, **kwargs):
 		Canvas.__init__(self, parent, **kwargs)
-		self.numbers = list()
+		self.raffle = list()
 		self.items = list()
 	
 	def add_number(self, number):
@@ -29,10 +29,13 @@ class LottoCanvas(Canvas):
 			item.reposition()
 	
 	def handle_event(self, event):
-		for item in self.items:
-			item.handle_event(event)
+		if event.num == 1:
+			for item in self.items:
+				item.handle_event(event)
+		else:
+			pass
+			
 			
 	def resize(self, event):
-		print 'resize'
 		for item in self.items:
 			item.reposition(event)
