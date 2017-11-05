@@ -7,7 +7,7 @@
 #  
 
 import Tkinter as tk
-from time import sleep, clock
+from time import sleep, time
 from animated_number import AnimatedNumber
 from lotto_canvas import LottoCanvas
 from canvas_button import CanvasButton
@@ -94,7 +94,7 @@ class LotteryLayout:
         self.main_white_image = tk.PhotoImage(file='bilder/Main_vit2.gif')
         
         self.background_photo_image = tk.PhotoImage(file='bilder/BG.gif')
-        self.side_thing = tk.PhotoImage(file='bilder/sidsak.gif')
+        self.side_thing = tk.PhotoImage(file='bilder/Sidsak.gif')
         
         self.small_number_images = list()
         self.number_images = list()
@@ -202,10 +202,10 @@ class LotteryLayout:
         self.green_button.set_image(self.green_button_half_image)
 
     def start(self):
-        self.prevClock = clock()
+        self.prevClock = time()
     
         while self.run:
-            self.curClock = clock()
+            self.curClock = time()
             delta = self.curClock - self.prevClock
             self.prevClock = self.curClock
             self.main_display.update(delta)
