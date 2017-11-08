@@ -11,7 +11,9 @@ from math import pow, floor
 from animated_number import AnimatedNumber
 
 class CompositeNumber():
+        # Duration before stopping the first number
 	ROLL_DURATION_FIRST = 1
+        # Duration for the rest of the numbers
 	ROLL_DURATION_CONSECUTIVE = 1
 	def __init__(self, canvas, no_numbers, x, y, images):
 		self.current_stopper = 0
@@ -71,6 +73,7 @@ class CompositeNumber():
 		self.run_animation = True
 		self.stop_countdown_first = CompositeNumber.ROLL_DURATION_FIRST
 		self.stop_countdown_consecutive = CompositeNumber.ROLL_DURATION_CONSECUTIVE
+                self.current_stopper = self.least_significant_digit_pos()
 		for n in self.numbers:
 			n.animate(True)
 			
@@ -81,10 +84,10 @@ class CompositeNumber():
 			
 	def stop_next(self):
 		self.numbers[self.current_stopper].animate(False)
-		self.current_stopper = (self.current_stopper + 1) % len(self.numbers)
+		self.current_stopper = self.current_stopper - 1
 		
-		if self.current_stopper == 0:
-			self.run_animation = False
+		if self.current_stopper == -1:
+                    self.run_animation = False
 		
 	def update(self, delta):
 		if self.run_animation:
@@ -107,6 +110,9 @@ class CompositeNumber():
 		for i in range(self.no_numbers):
 			offset = self.number_width * i
 			self.numbers[i].set_position(centered_x + offset, centered_y)
+
+        def least_significant_digit_pos(self):
+                return self.no_numbers - 1
 			
 	def destroy(self):
 		for n in self.numbers:
