@@ -12,12 +12,12 @@ class Dialog(Toplevel):
 
         Toplevel.__init__(self, parent)
         self.transient(parent)
-        
+
         self.red_old = red_old
         self.white_old = white_old
         self.yellow_old = yellow_old
         self.green_old = green_old
-        
+
         if title:
             self.title(title)
 
@@ -56,32 +56,32 @@ class Dialog(Toplevel):
         white_label = Label(master, text="Vit:")
         yellow_label = Label(master, text="Gul:")
         green_label = Label(master, text="Grön:")
-        
+
         red_label.grid(row=1)
         white_label.grid(row=2)
         yellow_label.grid(row=3)
         green_label.grid(row=4)
-        
+
         self.red_entry = Entry(master)
         self.white_entry = Entry(master)
         self.yellow_entry = Entry(master)
         self.green_entry = Entry(master)
-        
+
         self.red_entry.insert(0, str(self.red_old))
         self.white_entry.insert(0, str(self.white_old))
         self.yellow_entry.insert(0, str(self.yellow_old))
         self.green_entry.insert(0, str(self.green_old))
-        
+
         self.red_entry.grid(row=1, column=1)
         self.white_entry.grid(row=2, column=1)
         self.yellow_entry.grid(row=3, column=1)
         self.green_entry.grid(row=4, column=1)
-        return self.red_entry # initial focus 
+        return self.red_entry # initial focus
 
     def buttonbox(self):
         # add standard button box. override if you don't want the
         # standard buttons
-        
+
         box = Frame(self)
 
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
@@ -136,5 +136,5 @@ class Dialog(Toplevel):
         b = int(self.white_entry.get())
         c = int(self.yellow_entry.get())
         d = int(self.green_entry.get())
-        
+
         self.result = a, b, c, d
