@@ -15,25 +15,45 @@ class CompositeNumber():
     ROLL_DURATION_FIRST = 1
     # Duration for the rest of the numbers
     ROLL_DURATION_CONSECUTIVE = 1
-    def __init__(self, canvas, no_numbers, x, y, images):
+    def __init__(self, canvas, max_value, x, y, images):
         self.current_stopper = 0
         self.run_animation = False
         update_time = 0.1
         self.value = 0
         self.number_margin = 3
-        self.no_numbers = no_numbers
 
         self.number_images = images
         self.numbers = list()
 
         self.number_width = self.number_images[0].width() + self.number_margin
 
+        no_num = 1
+        while pow(10, no_num) <= max_value:
+                no_num += 1
+
+        self.no_numbers = no_num
+
         centered_x = self.center_x(x)
         centered_y = self.center_y(y)
 
         for i in range(self.no_numbers):
             offset = self.number_width * i
-            self.numbers.append(AnimatedNumber(canvas, centered_x + offset, centered_y, update_time, self.value, self.number_images))
+            min_digit = 0
+            max_digit = 9
+            if i == self.most_significant_digit_pos():
+                most_significant_number_divisor = int(pow(10, self.no_numbers - 1))
+                max_digit = max_value // most_significant_number_divisor
+
+            self.numbers.append(
+                    AnimatedNumber(
+                        canvas,
+                        centered_x + offset,
+                        centered_y,
+                        update_time,
+                        self.value,
+                        self.number_images,
+                        min_digit,
+                        max_digit))
         return
 
     def center_x(self, x):
@@ -113,6 +133,9 @@ class CompositeNumber():
 
     def least_significant_digit_pos(self):
             return self.no_numbers - 1
+
+    def most_significant_digit_pos(self):
+            return 0
 
     def destroy(self):
         for n in self.numbers:

@@ -22,6 +22,7 @@ class AnimatedNumber(AnimatedImage):
         if self.run_animation:
             self.current_timer -= time
             if self.current_timer < 0:
+                # Don't repeat the same value
                 new_value = randint(self.min, self.max)
                 while self.image_value == new_value:
                     new_value = randint(self.min, self.max)

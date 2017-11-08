@@ -22,17 +22,13 @@ class LotterNumberDisplay(CanvasItem):
         return
 
     def init_numbers(self, max_value, value):
-        no_numbers = 1
-        while pow(10, no_numbers) <= max_value:
-            no_numbers += 1
-
         x = self.x - self.anchor_x
         y = self.y - self.anchor_y - (self.height * 4) / 5
 
         if self.lottery_number:
             self.lottery_number.destroy()
 
-        self.lottery_number = CompositeNumber(self.parent, no_numbers, x, y, self.number_images)
+        self.lottery_number = CompositeNumber(self.parent, max_value, x, y, self.number_images)
         self.lottery_number.set_value(value)
         return
 
