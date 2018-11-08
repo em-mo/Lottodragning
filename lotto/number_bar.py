@@ -9,8 +9,9 @@
 from canvas_item import CanvasItem
 from composite_number import CompositeNumber
 
+PADDING_FACTOR = 1.05
+
 class NumberBar(CanvasItem):
-    MAX_NUMBER_OF_NUMBERS = 10
     def __init__(self, parent, relx, rely, anchor, images, max_value):
         CanvasItem.__init__(self, parent, relx, rely, anchor, images[0].width() * 4, parent.winfo_height())
 
@@ -36,7 +37,7 @@ class NumberBar(CanvasItem):
         lottery_number.set_value(number)
         self.drawn_numbers_list.append(lottery_number)
 
-        self.next_number_y += self.height / NumberBar.MAX_NUMBER_OF_NUMBERS
+        self.next_number_y += self.number_images[0].height() * PADDING_FACTOR
 
     def reposition(self, event):
         width = event.width
@@ -53,8 +54,8 @@ class NumberBar(CanvasItem):
 
         for n in self.drawn_numbers_list:
             n.move(self.next_number_x, self.next_number_y)
-            self.next_number_y += self.height / NumberBar.MAX_NUMBER_OF_NUMBERS
+            self.next_number_y += self.number_images[0].height() * PADDING_FACTOR
 
     def calculate_next_coordinates(self):
-        self.next_number_y = self.height / (NumberBar.MAX_NUMBER_OF_NUMBERS * 2)
+        self.next_number_y = self.number_images[0].height() / 2
         self.next_number_x = self.x + self.width / 2
