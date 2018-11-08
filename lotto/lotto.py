@@ -17,6 +17,8 @@ from number_bar import NumberBar
 from raffle import Raffle
 from dialog import Dialog
 
+SIDE_NUMBER_SIZE = 1.0 / 4
+
 class LotteryLayout:
     def __init__(self):
         self.run = True
@@ -99,7 +101,7 @@ class LotteryLayout:
         self.small_number_images = list()
         self.number_images = list()
         for i in range(10):
-            self.small_number_images.append(tk.PhotoImage(file=self.number_path(i)).subsample(2))
+            self.small_number_images.append(tk.PhotoImage(file=self.number_path(i)).subsample(int(round(1 / SIDE_NUMBER_SIZE))))
             self.number_images.append(tk.PhotoImage(file=self.number_path(i)))
         return
 
